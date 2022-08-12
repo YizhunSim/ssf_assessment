@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News Articles</title>
+    <style>
+      .container {
+        display: flex;
+      }
+      .title {
+        font-weight: bold;
+      }
+      .article {
+        border: double;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Crypto News of the Day</h1>
+
+    <div class="container">
+      <form method="POST" action="/articles">
+        <button type="submit">Save</button>
+        <div class="article" data-th-each="article: ${articles}">
+          <img
+            style="width: 100px"
+            data-th-src="@{${article.imageurl}}"
+            alt=""
+          />
+          <div class="article-contents">
+            Id:
+            <p data-th-text="${article.id}"></p>
+
+            <p data-th-text="${article.title}" class="title"></p>
+
+            <p data-th-text="${article.body}"></p>
+
+            Categories:
+            <p data-th-text="${article.categories}"></p>
+
+            Tags:
+            <p data-th-text="${article.tags}"></p>
+
+            <div>
+              Published On:
+              <p data-th-text="${article.published_on}"></p>
+              <a data-th-href="@{${article.url}}">Link</a>
+              <input
+                type="checkbox"
+                name="articleCheckBox"
+                data-th-value="${article.id}"
+              />
+              <label for="article"> Save</label><br />
+            </div>
+          </div>
+        </div>
+        <!-- article-contents-->
+      </form>
+    </div>
+    <!-- container -->
+  </body>
+</html>
