@@ -16,13 +16,13 @@ import vttp2022.ssf.ssf_assessment.models.NewsFeed;
 import vttp2022.ssf.ssf_assessment.services.NewsService;
 
 @Controller
-@RequestMapping (path={"/"})
+@RequestMapping(path={"/", ""})
 public class NewsController {
 
   @Autowired
   private NewsService newsService;
 
-  @GetMapping (path={"/index"})
+  @GetMapping
   public String retrieveNewsArticles(Model model){
     List<NewsFeed> listOfArticles = newsService.getArticles();
     model.addAttribute("articles", listOfArticles);
@@ -37,7 +37,7 @@ public class NewsController {
     for (String id : ids){
       System.out.println("NewsController - saveArticles - id: " + id);
       for (NewsFeed nf : listOfArticles){
-         if (id.equals(String.valueOf(nf.getId()))){
+         if (id.equals(nf.getId())){
             articlesToSave.add(nf);
          }
       }

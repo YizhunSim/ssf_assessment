@@ -7,7 +7,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
 public class NewsFeed {
-  private int id;
+  private String id;
   private int published_on;
   private String title;
   private String url;
@@ -16,10 +16,10 @@ public class NewsFeed {
   private String tags;
   private String categories;
 
-  public int getId() {
+  public String getId() {
     return id;
   }
-  public void setId(int id) {
+  public void setId(String id) {
     this.id = id;
   }
   public int getPublished_on() {
@@ -66,9 +66,9 @@ public class NewsFeed {
   }
 
   // Json to Model
-  public static NewsFeed create(int index, JsonObject jo){
+  public static NewsFeed create(JsonObject jo){
     NewsFeed nf = new NewsFeed();
-    nf.setId(index + 1);
+    nf.setId(jo.getString("id"));
     nf.setPublished_on(jo.getInt("published_on"));
     nf.setTitle(jo.getString("title"));
     nf.setUrl(jo.getString("url"));

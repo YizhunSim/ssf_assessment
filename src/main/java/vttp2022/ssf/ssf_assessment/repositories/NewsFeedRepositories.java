@@ -1,6 +1,7 @@
 package vttp2022.ssf.ssf_assessment.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,13 +23,17 @@ public class NewsFeedRepositories {
 		  ValueOperations<String, String> valueOp = redisTemplate.opsForValue();
       valueOp.set(id, newsFeed.toJson(newsFeed).toString());
       System.out.println("NewsFeedRepositories: - saveNewFeed Success! ");
-		  // long sizeKeyList = listOps.size(id);
-		  // if (sizeKeyList > 0){
-      //   	listOps.trim(id, 0, sizeKeyList);
-      // }
-      // for (long i = 0; i < sizeKeyList; i++){
-      //   listOps.leftPush(id, newsFeed.toJson(newsFeed).toString());
-      // }
-
     }
+
+    public Optional<String> getArticle(String id) {
+      if (!redisTemplate.hasKey(id)){
+          System.out.println("NewsFeedRepositories - getArticle - Unable to find key: " + id);
+          return Optional.empty();
+      }
+
+      ValueOperations<String, String> valueOp = redisTemplate.opsForValue();
+      String newsFeedResult = valueOp.get(id);
+      System.out.println("NewsFeedRepositories - getArticle - newsFeedResult: " + newsFeedResult);
+      return Optional.of(newsFeedResult);
+	}
 }

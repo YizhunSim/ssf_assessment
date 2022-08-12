@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,7 +68,7 @@ public class NewsService {
 
       for (int i = 0; i < newsFeedData.size(); i++){
         JsonObject jo = newsFeedData.getJsonObject(i);
-        listOfArticles.add(NewsFeed.create(i, jo));
+        listOfArticles.add(NewsFeed.create(jo));
       }
 
       return listOfArticles;
@@ -76,6 +77,25 @@ public class NewsService {
   public void saveArticles(List<NewsFeed> newsFeedsList){
     for (NewsFeed nf : newsFeedsList){
        newsFeedRepositories.saveNewFeed(nf);
+    }
+  }
+
+  public NewsFeed getArticleById (String id){
+    System.out.println("NewsService - getArticleById id: " + id);
+    Optional<String> opt = newsFeedRepositories.getArticle(id);
+    String payload;
+    if (opt.isEmpty()){
+      return null;
+    } else{
+      payload = opt.get();
+      System.out.println("NewsService - getArticleById -[PAYLOAD]:  " + payload);
+      // Convert Payload to JsonObject
+      // Convert the String to a Reader
+      Reader strReader = new StringReader(payload);
+      // Create a JsonReader from reader
+      JsonReader jsonReader = Json.createReader(strReader);
+      JsonObject articleObject = jsonReader.readObject();
+      return NewsFeed.create(articleObject);
     }
   }
 }
