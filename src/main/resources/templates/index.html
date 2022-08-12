@@ -9,50 +9,70 @@
       .container {
         display: flex;
       }
+      .header {
+        text-align: center;
+      }
       .title {
         font-weight: bold;
       }
       .article {
+        display: flex;
         border: double;
+        justify-content: space-between;
+        padding: 10px;
+        gap: 20px;
+      }
+      .button-save-all {
+        font-size: 16px;
+        padding: 10px 20px;
       }
     </style>
   </head>
   <body>
-    <h1>Crypto News of the Day</h1>
+    <h1 class="header">Crypto News of the Day</h1>
 
     <div class="container">
       <form method="POST" action="/articles">
-        <button type="submit">Save</button>
+        <button type="submit" class="button-save-all">Save</button>
         <div class="article" data-th-each="article: ${articles}">
-          <img
-            style="width: 100px"
-            data-th-src="@{${article.imageurl}}"
-            alt=""
-          />
+          <div>
+            <img
+              style="width: 250px"
+              data-th-src="@{${article.imageurl}}"
+              alt=""
+            />
+          </div>
+
           <div class="article-contents">
-            Id:
-            <p data-th-text="${article.id}"></p>
+            <p>Id: <span data-th-text="${article.id}"></span></p>
 
             <p data-th-text="${article.title}" class="title"></p>
 
             <p data-th-text="${article.body}"></p>
 
-            Categories:
-            <p data-th-text="${article.categories}"></p>
+            <p>
+              Categories: <span data-th-text="${article.categories}"></span>
+            </p>
 
-            Tags:
-            <p data-th-text="${article.tags}"></p>
+            <p>Tags: <span data-th-text="${article.tags}"></span></p>
 
             <div>
-              Published On:
-              <p data-th-text="${article.published_on}"></p>
-              <a data-th-href="@{${article.url}}" target="_blank">Link</a>
-              <input
-                type="checkbox"
-                name="articleCheckBox"
-                data-th-value="${article.id}"
-              />
-              <label for="article"> Save</label><br />
+              <p>
+                Published On:
+                <span data-th-text="${article.published_on}"></span>
+                <span
+                  ><a data-th-href="@{${article.url}}" target="_blank"
+                    >Link</a
+                  ></span
+                >
+                <span>
+                  <input
+                    type="checkbox"
+                    name="articleCheckBox"
+                    data-th-value="${article.id}"
+                /></span>
+                <span> <label for="article"> Save</label><br /></span>
+              </p>
             </div>
           </div>
         </div>

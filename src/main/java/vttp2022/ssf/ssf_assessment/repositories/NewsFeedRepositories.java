@@ -22,7 +22,7 @@ public class NewsFeedRepositories {
 		  String id = String.valueOf(newsFeed.getId());
 		  ValueOperations<String, String> valueOp = redisTemplate.opsForValue();
       valueOp.set(id, newsFeed.toJson(newsFeed).toString());
-      System.out.println("NewsFeedRepositories: - saveNewFeed Success! ");
+      System.out.println("NewsFeedRepositories: - saveNewFeed Id: " + id + " - SUCCESS!");
     }
 
     public Optional<String> getArticle(String id) {

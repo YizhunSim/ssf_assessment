@@ -30,22 +30,27 @@ public class NewsController {
   }
 
   @PostMapping (path={"/articles"})
-  public String saveArticles(Model model, @RequestBody MultiValueMap<String, String> form){
-    List<String> ids = form.get("articleCheckBox");
+  public String saveArticles(Model model, @RequestBody(required = false) MultiValueMap<String, String> form){
     List<NewsFeed> listOfArticles = newsService.getArticles();
+    model.addAttribute("articles", listOfArticles);
+    if (form == null) {
+      System.out.println("No articles to save!");
+      return "index";
+    }
+    List<String> ids = form.get("articleCheckBox");
     List<NewsFeed> articlesToSave = new LinkedList<>();
     for (String id : ids){
       System.out.println("NewsController - saveArticles - id: " + id);
       for (NewsFeed nf : listOfArticles){
-         if (id.equals(nf.getId())){
-            articlesToSave.add(nf);
-         }
+        if (id.equals(nf.getId())){
+          articlesToSave.add(nf);
+        }
       }
     }
     System.out.println("NewsController: saveArticles - articlesToSave: " + articlesToSave);
 
     newsService.saveArticles(articlesToSave);
-    model.addAttribute("articles", listOfArticles);
+
     return "index";
   }
 
