@@ -45,7 +45,8 @@ public class NewsController {
     System.out.println("NewsController: saveArticles - articlesToSave: " + articlesToSave);
 
     newsService.saveArticles(articlesToSave);
-    return "redirect:index";
+    model.addAttribute("articles", listOfArticles);
+    return "index";
   }
 
 }
